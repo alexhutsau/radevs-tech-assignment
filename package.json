@@ -17,20 +17,28 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js -f ./ormconfig.ts",
+    "migration:generate": "nest build && npm run typeorm -- migration:generate -n",
+    "migration:create": "npm run typeorm -- migration:create -n",
+    "migration:run": "rimraf dist && nest build && npm run typeorm -- migration:run",
+    "migration:revert": "rimraf dist && nest build && npm run typeorm -- migration:revert"
   },
   "dependencies": {
-    "@nestjs/common": "^9.4.0",
-    "@nestjs/core": "^9.4.0",
-    "@nestjs/platform-express": "^9.4.0",
+    "@nestjs/common": "^7.6.18",
+    "@nestjs/core": "^7.6.18",
+    "@nestjs/platform-express": "^7.6.18",
+    "@nestjs/typeorm": "^7.1.5",
+    "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^5.0.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^6.6.7",
+    "typeorm": "^0.2.45"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.4.2",
     "@nestjs/schematics": "^9.1.0",
-    "@nestjs/testing": "^9.4.0",
+    "@nestjs/testing": "^7.6.18",
     "@types/express": "^4.17.17",
     "@types/jest": "29.5.1",
     "@types/node": "^18.16.1",
