@@ -13,5 +13,5 @@ export class Order {
 
   @ManyToOne(() => User, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'user_id' })
-  user: User
+  user?: User
 }
