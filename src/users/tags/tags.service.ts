@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository } from 'typeorm'
+import { DeleteResult, In, Repository } from 'typeorm'
 import { IUserTag, UserTag } from './entites/tag.entity'
 
 @Injectable()
@@ -21,5 +21,14 @@ export class TagsService {
 
   delete(id: string, userId: string): Promise<DeleteResult> {
     return this.tagsRepository.delete({ id, userId })
+  }
+
+  async findUserIdsByTagName(names: string[]): Promise<string[]> {
+    const tags = await this.tagsRepository.createQueryBuilder('tags')
+      .distinct().select('tags.userId as "userId"')
+      .where({ name: In(names) })
+      .getRawMany()
+
+    return tags.map(t => t.userId)
   }
 }

@@ -6,11 +6,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../middleware/auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { TagsService } from './tags/tags.service';
+import { UserTag } from './tags/entites/tag.entity';
 
 @Module({
   controllers: [UsersController],
   providers: [
     UsersService,
+    TagsService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
@@ -18,6 +21,7 @@ import { User } from './entities/user.entity';
   ],
   imports: [
     TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([UserTag]),
     TagsModule,
   ],
 })

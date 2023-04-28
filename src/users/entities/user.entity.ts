@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { UserTag } from '../tags/entites/tag.entity'
 
 @Entity({ name: 'users' })
 export class User {
@@ -7,4 +8,9 @@ export class User {
 
   @Column({ unique: true })
   name: string
+
+  // Relations
+
+  @OneToMany(() => UserTag, tag => tag.user)
+  tags?: UserTag[]
 }
