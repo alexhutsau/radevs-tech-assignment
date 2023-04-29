@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository } from 'typeorm'
+import { DeleteResult, In, Repository } from 'typeorm'
 import { IOrderTag, OrderTag } from './entities/tag.entity'
 
 @Injectable()
@@ -27,5 +27,15 @@ export class TagsService {
          and orders.user_id = $1
          and order_tags.id = $2
     `, [userId, id])
+  }
+
+  async findUserOrderIdsByTagName(userId: string, names: string[]): Promise<string[]> {
+    const tags = await this.tagsRepository.createQueryBuilder('tags')
+      .innerJoin('tags.order', 'order', 'order.userId = :userId', { userId })
+      .distinct().select('tags.orderId as "orderId"')
+      .where({ name: In(names) })
+      .getRawMany()
+
+    return tags.map(t => t.orderId)
   }
 }
