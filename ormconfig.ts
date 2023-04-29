@@ -1,8 +1,7 @@
 import { ConnectionOptions } from 'typeorm';
 
-const migrationsDir = 'migrations'
-
-export default {
+const connectionOptions = (migrationsDir: string, name?: string): ConnectionOptions => ({
+  name,
   type: 'postgres',
   host: 'localhost',
   port: 7432,
@@ -17,4 +16,11 @@ export default {
   uuidExtension: 'uuid-ossp',
   logging: ['schema', 'query'],
   synchronize: false,
-} as ConnectionOptions;
+});
+
+export const ormConfig = connectionOptions('migrations');
+
+export default [
+  ormConfig,
+  connectionOptions('seeds', 'seed'),
+];
