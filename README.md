@@ -47,6 +47,16 @@ $ docker-compose down --remove-orphans
 $ docker-compose logs -f
 ```
 
+## DB preparing
+
+```bash
+# migrations
+$ npm run migration:run
+
+# seeds
+$ npm run seeds:run
+```
+
 ## Running the app
 
 ```bash
@@ -68,6 +78,43 @@ $ npm run test
 
 # test coverage
 $ npm run test:cov
+```
+
+## API endpoints
+
+```bash
+# use `me` parameter with all endpoints to define current user (should match any db user name: ['alex', 'ra-devs'])
+
+# find other users
+# - tags - comma-separated optional parameter (find users with specific tags)
+[GET]/users?me=[&tags=]
+
+# find my orders
+# - tags - comma-separated optional parameter (find orders with specific tags)
+[GET]/orders?me=[&tags=]
+
+# create or update (by name) user tags
+# - body: {
+#   - name - string, required, not empty
+#   - color - hex format string, required
+# }
+[PUT]/user/tags?me=
+
+# delete user tag
+# - :id - user tag id
+[DELETE]/user/tags/:id?me=
+
+# create or update (by name) order tags
+# - body: {
+#   - orderId - UUID string, required
+#   - name - string, required, not empty
+#   - color - hex format string, required
+# }
+[PUT]/order/tags?me=
+
+# delete order tag
+# - :id - user order tag id
+[DELETE]/order/tags/:id?me=
 ```
 
 ## Support
